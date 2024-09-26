@@ -14,7 +14,7 @@ public partial class Store
     public int Id { get; set; }
 
     [Required]
-    [StringLength(150)]
+    [StringLength(200)]
     public string Name { get; set; }
 
     public bool IsVirtual { get; set; }
