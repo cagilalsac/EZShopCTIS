@@ -1,0 +1,44 @@
+﻿@model List<BLL.DAL.Product>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Unit Price
+        </th>
+        <th>
+            Stock Amount
+        </th>
+        <th>
+            Expiration Date
+        </th>
+        <th>
+            Category
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.UnitPrice
+            </td>
+            <td>
+                @item.StockAmount
+            </td>
+            <td>
+                @item.ExpirationDate
+            </td>
+            <td>
+                @item.CategoryId
+            </td>
+        </tr>
+    }
+</table>
+
+
+

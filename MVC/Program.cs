@@ -1,7 +1,12 @@
+using BLL.DAL;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<Db>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EZShopDB;Trusted_Connection=True;"));
 
 var app = builder.Build();
 

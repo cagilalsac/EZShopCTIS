@@ -15,7 +15,8 @@ namespace MVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<Product> list = _db.Products.ToList();
+            return View("ProductList", list);
         }
     }
 }
