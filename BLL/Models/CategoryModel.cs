@@ -11,7 +11,5 @@ namespace BLL.Models
         public string Name => Record.Name;
 
         public string Description => Record.Description;
-
-        public string NameAndDescription => $"{Record.Name} {Record.Description}";
     }
 }
