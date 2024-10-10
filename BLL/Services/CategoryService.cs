@@ -35,7 +35,7 @@ namespace BLL.Services
 
         public IQueryable<CategoryModel> Query()
         {
-            throw new NotImplementedException();
+            return _db.Categories.OrderBy(c => c.Name).Select(c => new CategoryModel() { Record = c });
         }
 
         public Service Update(Category category)

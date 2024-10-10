@@ -1,4 +1,5 @@
 using BLL.DAL;
+using BLL.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 
 // IoC (Inversion of Control) Container 
 builder.Services.AddDbContext<Db>(options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EZShopDB;Trusted_Connection=True;"));
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 
