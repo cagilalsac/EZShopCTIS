@@ -1,0 +1,167 @@
+﻿@inherits Microsoft.VisualStudio.Web.CodeGeneration.Templating.RazorTemplateBase
+@using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore
+@using System.Collections.Generic
+@using System.Linq
+@{
+    var viewEnumerable = GetEnumerableTypeExpression(Model.ViewDataTypeName);
+    var viewModel = "@model " + viewEnumerable;
+    var viewDataTypeName = Model.ViewDataTypeName.Split('.')[Model.ViewDataTypeName.Split('.').Length - 1];
+}
+@viewModel
+
+@@* Generated from Custom Template. *@@
+@@* Model namespace using directive should be added to _ViewImports.cshtml. *@@
+
+@{
+@:@@{
+    @:var containerDivClass = "container";
+@:}
+    if (Model.IsPartialView)
+    {
+    }
+    else if (Model.IsLayoutPageSelected)
+    {
+@:@@{
+    @:ViewData["Title"] = "@viewDataTypeName List";
+        if (!string.IsNullOrEmpty(Model.LayoutPageFile))
+        {
+    @:Layout = "@Model.LayoutPageFile";
+        }
+@:}
+@:
+@:<div class="@@containerDivClass">
+    @:<h1>@@ViewData["Title"]</h1>
+    @:<hr />
+@:</div>
+@:
+    }
+    else
+    {
+@:@@{
+    @:Layout = null;
+@:}
+@:
+@:<!DOCTYPE html>
+@:
+@:<html>
+@:<head>
+    @:<meta name="viewport" content="width=device-width" />
+    @:<title>@viewDataTypeName List</title>
+@:</head>
+@:<body>
+    }
+@:@@if (Model is not null)
+@:{
+    @:<form asp-action="@Model.ViewName" autocomplete="off">
+        @:<div class="@@containerDivClass">
+            @:<div class="row">
+                @:<div class="col-12 text-danger">
+                    @:@@TempData["Message"]
+                @:</div>
+            @:</div>
+            @:<div class="row mb-3">
+                @:<div class="col-10 text-success">
+                    @:@@Model.Count() record(s) found.
+                @:</div>
+                @:<div class="col-2 text-end">
+                    @:<a asp-action="Create">Create</a>
+                @:</div>
+            @:</div>
+            @:<table class="table table-striped table-hover">
+                @:<thead class="table-secondary">
+                    @:<tr>
+                    Dictionary<string, IPropertyMetadata> propertyLookup = ((IModelMetadata)Model.ModelMetadata).Properties.ToDictionary(x => x.PropertyName, x => x);
+                    Dictionary<string, INavigationMetadata> navigationLookup = ((IModelMetadata)Model.ModelMetadata).Navigations.ToDictionary(x => x.AssociationPropertyName, x => x);
+
+                    foreach (var item in Model.ModelMetadata.ModelType.GetProperties())
+                    {
+                        if (propertyLookup.TryGetValue(item.Name, out IPropertyMetadata property)
+                            && property.Scaffold && !property.IsForeignKey && !property.IsPrimaryKey)
+                        {
+                        <th>
+                            @@Html.DisplayNameFor(model => model.@GetValueExpression(property))
+                        </th>
+                        }
+                        else if (navigationLookup.TryGetValue(item.Name, out INavigationMetadata navigation))
+                        {
+                        <th>
+                            @@Html.DisplayNameFor(model => model.@GetValueExpression(navigation))
+                        </th>
+                        }
+                    }
+                        @:<th></th>
+                    @:</tr>
+                @:</thead>
+                @:<tbody>
+		            @:@@foreach (var item in Model) {
+				        @:<tr>
+				        foreach (var item in Model.ModelMetadata.ModelType.GetProperties())
+				        {
+					        if (propertyLookup.TryGetValue(item.Name, out IPropertyMetadata property)
+						        && property.Scaffold && !property.IsForeignKey && !property.IsPrimaryKey)
+					        {
+					        <td>
+						        @@Html.DisplayFor(modelItem => item.@GetValueExpression(property))
+					        </td>
+					        }
+					        else if (navigationLookup.TryGetValue(item.Name, out INavigationMetadata navigation))
+					        {
+					        <td>
+						        @@Html.DisplayFor(modelItem => item.@GetValueExpression(navigation))
+					        </td>
+					        }
+				        }
+				        string pkName = GetPrimaryKeyName();
+				        if (pkName != null)
+				        {
+					        @:<td class="text-end w-25">
+						        @:<a asp-action="Details" asp-route-id="@@item.Record.@pkName">Details</a>&nbsp;|&nbsp;
+						        @:<a asp-action="Edit" asp-route-id="@@item.Record.@pkName">Edit</a>&nbsp;|&nbsp;
+						        @:<a asp-action="Delete" asp-route-id="@@item.Record.@pkName">Delete</a>
+					        @:</td>
+				        }
+				        else
+				        {
+					        <td class="text-end w-25">
+						        @@Html.ActionLink("Details", "Details", new { /* id = item.Record.PrimaryKey */ })&nbsp;|&nbsp;
+						        @@Html.ActionLink("Edit", "Edit", new { /* id = item.Record.PrimaryKey */ })&nbsp;|&nbsp;
+						        @@Html.ActionLink("Delete", "Delete", new { /* id = item.Record.PrimaryKey */ })
+					        </td>
+				        }
+				        @:</tr>
+		            @:}
+                @:</tbody>
+            @:</table>
+        @:</div>
+    @:</form>
+@:}
+    if(!Model.IsPartialView && !Model.IsLayoutPageSelected)
+    {
+@:</body>
+@:</html>
+    }
+}
+@functions
+{
+    string GetPrimaryKeyName()
+    {
+        return (Model.ModelMetadata.PrimaryKeys != null && Model.ModelMetadata.PrimaryKeys.Length == 1)
+        ? Model.ModelMetadata.PrimaryKeys[0].PropertyName
+        : null;
+    }
+
+    string GetValueExpression(IPropertyMetadata property)
+    {
+        return property.PropertyName;
+    }
+
+    string GetValueExpression(INavigationMetadata navigation)
+    {
+        return navigation.AssociationPropertyName;
+    }
+
+    string GetEnumerableTypeExpression(string typeName)
+    {
+        return "IEnumerable<" + typeName.Split('.')[typeName.Split('.').Length - 1] + "Model>";
+    }
+}
