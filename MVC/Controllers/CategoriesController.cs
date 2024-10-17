@@ -1,4 +1,5 @@
-﻿using BLL.Services;
+﻿using BLL.Models;
+using BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MVC.Controllers
@@ -24,6 +25,27 @@ namespace MVC.Controllers
             var category = _categoryService.Query().SingleOrDefault(c => c.Record.Id == id);
             if (category is null) // ==: same as "is"
                 return NotFound();
+            return View(category);
+        }
+
+        //[HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Create(CategoryModel category)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = _categoryService.Create(category.Record);
+                if (result.IsSuccessful)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("", result.Message);
+            }
             return View(category);
         }
     }

@@ -20,6 +20,8 @@ namespace BLL.Services
 
         public Service Create(Category category)
         {
+            if (_db.Categories.Any(c => c.Name == category.Name))
+                return Error("Category with the same name exists!");
             _db.Categories.Add(category);
             _db.SaveChanges();
             return Success();
