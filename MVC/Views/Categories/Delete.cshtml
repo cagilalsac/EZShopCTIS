@@ -1,0 +1,66 @@
+﻿@model CategoryModel
+
+@* Generated from Custom Template. *@
+@* Model namespace using directive should be added to _ViewImports.cshtml. *@
+
+@{
+    var containerDivClass = "container";
+}
+@{
+    ViewData["Title"] = "Category Delete";
+}
+
+<div class="@containerDivClass">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+</div>
+
+@if (Model is not null)
+{
+<div class="@containerDivClass">
+    @if (TempData["Message"] is not null)
+    {
+    <p class="text-danger">
+        @TempData["Message"]
+    </p>
+    }
+    <h3 class="text-danger">Are you sure you want to delete?</h3>
+    <hr />
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(model => model.Name)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(model => model.Name)
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(model => model.Description)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(model => model.Description)
+        </div>
+    </div>
+
+@* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. *@
+    @*
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            <b>@Html.DisplayNameFor(model => model.ManyToManyRecords)</b>
+        </div>
+        <div class="col-10">
+            @Html.Raw(Model.ManyToManyRecords)
+        </div>
+    </div>
+    *@
+
+    <hr />
+    <form asp-action="Delete">
+	    @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Record.Id" />
+        <input type="submit" value="Yes" class="btn btn-danger" />&nbsp;&nbsp;
+        <a asp-action="Index" class="btn btn-outline-danger">No</a>
+    </form>
+</div>
+}
