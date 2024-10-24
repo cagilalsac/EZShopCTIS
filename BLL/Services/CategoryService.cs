@@ -1,6 +1,7 @@
 ﻿using BLL.DAL;
 using BLL.Models;
 using BLL.Services.Bases;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
@@ -29,7 +30,9 @@ namespace BLL.Services
 
         public Service Delete(int id)
         {
-            var category = _db.Categories.Find(id);
+            var category = _db.Categories.Include(c => c.Products).SingleOrDefault(c => c.Id == id);
+            if (category is not null && category.Products.Any()) // Any(): category.Products.Count > 0
+                return Error("Category cannot be deleted because it has relational products!");
             _db.Categories.Remove(category);
             _db.SaveChanges();
             return Success();
@@ -42,6 +45,8 @@ namespace BLL.Services
 
         public Service Update(Category category)
         {
+            if (_db.Categories.Any(c => c.Id != category.Id && c.Name == category.Name))
+                return Error("Category with the same name exists!");
             _db.Categories.Update(category);
             _db.SaveChanges();
             return Success();
