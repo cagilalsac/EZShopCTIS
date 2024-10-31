@@ -24,46 +24,8 @@
         @TempData["Message"]
     </p>
     }
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.Name)
-        </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.Name)
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.UnitPrice)
-        </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.UnitPrice)
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.StockAmount)
-        </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.StockAmount)
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.ExpirationDate)
-        </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.ExpirationDate)
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.Category)
-        </div>
-        <div class="col-10">
-            @Html.DisplayFor(model => model.Category)
-        </div>
-    </div>
+    
+    <partial name="_Details" model="Model" />
 
 @* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. *@
     @*

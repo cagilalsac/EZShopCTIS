@@ -7,7 +7,7 @@ namespace BLL.Controllers.Bases
     {
         protected MvcController()
         {
-            var cultureInfo = new CultureInfo("en-US");
+            var cultureInfo = new CultureInfo("tr-TR");
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
         }

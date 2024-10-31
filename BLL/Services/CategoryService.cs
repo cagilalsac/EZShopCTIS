@@ -23,6 +23,8 @@ namespace BLL.Services
         {
             if (_db.Categories.Any(c => c.Name == category.Name))
                 return Error("Category with the same name exists!");
+            category.Name = category.Name?.Trim();
+            category.Description = category.Description?.Trim();
             _db.Categories.Add(category);
             _db.SaveChanges();
             return Success();
@@ -47,7 +49,10 @@ namespace BLL.Services
         {
             if (_db.Categories.Any(c => c.Id != category.Id && c.Name == category.Name))
                 return Error("Category with the same name exists!");
-            _db.Categories.Update(category);
+            var entity = _db.Categories.Find(category.Id);
+            entity.Name = category.Name?.Trim();
+            entity.Description = category.Description?.Trim();
+            _db.Categories.Update(entity);
             _db.SaveChanges();
             return Success();
         }

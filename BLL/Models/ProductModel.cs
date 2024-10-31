@@ -19,9 +19,10 @@ namespace BLL.Models
         public int StockAmount => Record.StockAmount ?? 0;
 
         [DisplayName("Expiration Date")]
-        public string ExpirationDate => Record.ExpirationDate.HasValue ? Record.ExpirationDate.Value.ToString("MM/dd/yyyy") : string.Empty;
+        //public string ExpirationDate => Record.ExpirationDate.HasValue ? Record.ExpirationDate.Value.ToString("MM/dd/yyyy") : string.Empty;
+        public string ExpirationDate => Record.ExpirationDate.HasValue ? Record.ExpirationDate.Value.ToShortDateString() : string.Empty;
 
-        public string Category => Record.Category.Name;
+        public string Category => Record.Category?.Name;
 
     }
 }
