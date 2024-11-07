@@ -1,0 +1,83 @@
+﻿@model StoreModel
+
+@* Generated from Custom Template. *@
+@* Model namespace using directive should be added to _ViewImports.cshtml. *@
+
+@{
+    var containerDivClass = "container";
+    var dateTimePickerClass = "datetimepicker";
+}
+@{
+    ViewData["Title"] = "Store Create";
+}
+
+<div class="@containerDivClass">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+</div>
+
+<div class="@containerDivClass">
+    @if (TempData["Message"] is not null)
+    {
+    <p class="text-danger">
+        @TempData["Message"]
+    </p>
+    }
+    <form asp-action="Create" autocomplete="off">
+		@Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row mb-3">
+            <label asp-for="Name" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+			    <input asp-for="Record.Name" class="form-control" />
+				<span asp-validation-for="Record.Name" class="text-danger"></span>
+			</div>
+        </div>
+        <div class="row mb-3">
+			<label asp-for="IsVirtual" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10 pt-2">
+				<input class="form-check-input" asp-for="Record.IsVirtual" />
+            </div>
+        </div>
+        @* <div class="row mb-3">
+            <label asp-for="Country" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+				<select asp-for="Record.CountryId" class="form-select" asp-items="ViewBag.CountryId">
+					<option value="">-- Select --</option>
+				</select>
+				<span asp-validation-for="Record.CountryId" class="text-danger"></span>
+			</div>
+        </div>
+        <div class="row mb-3">
+            <label asp-for="City" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+				<select asp-for="Record.CityId" class="form-select" asp-items="ViewBag.CityId">
+					<option value="">-- Select --</option>
+				</select>
+				<span asp-validation-for="Record.CityId" class="text-danger"></span>
+			</div>
+        </div> *@
+
+@* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. *@
+        @*
+        <div class="row mb-3">
+            <label asp-for="ManyToManyRecordIds" class="col-2 col-form-label fw-bold"></label>
+	        <div class="col-10">
+		        <select multiple asp-for="ManyToManyRecordIds" class="form-select" asp-items="ViewBag.ManyToManyRecordIds"></select>
+		        <span asp-validation-for="ManyToManyRecordIds" class="text-danger"></span>
+	        </div>
+        </div>
+        *@
+
+        <hr />  
+        <div class="row mb-3">
+			<div class="offset-2 col-10">
+                <button type="submit" class="btn btn-primary">Save</button>
+				&nbsp;&nbsp;
+                <button type="reset" class="btn btn-outline-primary">Reset</button>
+				&nbsp;&nbsp;
+				<a asp-action="Index">Back to List</a>
+			</div>
+        </div>
+    </form>
+</div>  

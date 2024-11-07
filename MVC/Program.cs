@@ -13,6 +13,7 @@ var connectionString = builder.Configuration.GetConnectionString("Db");
 builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IStoreService, StoreService>();
 
 var section = builder.Configuration.GetSection(nameof(AppSettings));
 section.Bind(new AppSettings());
