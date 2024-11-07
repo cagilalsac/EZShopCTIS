@@ -1,11 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 
-    string title = "EZ-Shop";
-    string description = "Shopping made easy";
+    string title = AppSettings.Title;
+    string description = AppSettings.Description;
 }
 
 <div class="text-center">
-    <h1 class="display-4">@title</h1>
+    <h1 class="display-4">Welcome to @title</h1>
     <p>@description</p>
 </div>
