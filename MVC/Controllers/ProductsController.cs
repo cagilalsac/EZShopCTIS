@@ -15,22 +15,22 @@ namespace MVC.Controllers
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
 
-        /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-        //private readonly IManyToManyRecordService _ManyToManyRecordService;
+        /* Can be uncommented and used for many to many relationships. Store may be replaced with the related entiy name in the controller and views. */
+        private readonly IStoreService _StoreService;
 
         public ProductsController(
 			IProductService productService
             , ICategoryService categoryService
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //, IManyToManyRecordService ManyToManyRecordService
+            /* Can be uncommented and used for many to many relationships. Store may be replaced with the related entiy name in the controller and views. */
+            , IStoreService StoreService
         )
         {
             _productService = productService;
             _categoryService = categoryService;
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //_ManyToManyRecordService = ManyToManyRecordService;
+            /* Can be uncommented and used for many to many relationships. Store may be replaced with the related entiy name in the controller and views. */
+            _StoreService = StoreService;
         }
 
         // GET: Products
@@ -53,9 +53,9 @@ namespace MVC.Controllers
         {
             // Related items service logic to set ViewData (Record.Id and Name parameters may need to be changed in the SelectList constructor according to the model):
             ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Record.Id", "Name");
-            
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //ViewBag.ManyToManyRecordIds = new MultiSelectList(_ManyToManyRecordService.Query().ToList(), "Record.Id", "Name");
+
+            /* Can be uncommented and used for many to many relationships. Store may be replaced with the related entiy name in the controller and views. */
+            ViewBag.StoreIds = new MultiSelectList(_StoreService.Query().ToList(), "Record.Id", "Name");
         }
 
         // GET: Products/Create

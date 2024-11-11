@@ -21,7 +21,8 @@ namespace BLL.Services
 
         public IQueryable<ProductModel> Query()
         {
-            return _db.Products.Include(p => p.Category).OrderByDescending(p => p.ExpirationDate).ThenBy(p => p.StockAmount).ThenBy(p => p.Name).Select(p => new ProductModel() { Record = p });
+            return _db.Products.Include(p => p.Category).Include(p => p.ProductStores).ThenInclude(ps => ps.Store)
+                .OrderByDescending(p => p.ExpirationDate).ThenBy(p => p.StockAmount).ThenBy(p => p.Name).Select(p => new ProductModel() { Record = p });
         }
 
         public Service Create(Product product)
@@ -58,14 +59,16 @@ namespace BLL.Services
                 return Error("Product with the same name exists!");
             if (product.StockAmount.HasValue && product.StockAmount.Value < 0)
                 return Error("Stock amount must be a positive number!");
-            var entity = _db.Products.SingleOrDefault(p => p.Id == product.Id);
+            var entity = _db.Products.Include(p => p.ProductStores).SingleOrDefault(p => p.Id == product.Id);
             if (entity is null)
                 return Error("Product not found!");
+            _db.ProductStores.RemoveRange(entity.ProductStores);
             entity.Name = product.Name?.Trim();
             entity.UnitPrice = product.UnitPrice;
             entity.StockAmount = product.StockAmount;
             entity.ExpirationDate = product.ExpirationDate;
             entity.CategoryId = product.CategoryId;
+            entity.ProductStores = product.ProductStores;
             _db.Products.Update(entity);
             _db.SaveChanges();
             return Success("Product updated successfully.");
