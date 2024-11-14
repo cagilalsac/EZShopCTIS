@@ -1,6 +1,7 @@
 using BLL.DAL;
 using BLL.Models;
 using BLL.Services;
+using BLL.Services.Bases;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionStri
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+// Way 1:
+//builder.Services.AddScoped<IUserService, UserService>();
+// Way 2:
+builder.Services.AddScoped<IService<User, UserModel>, UserService>();
 
 var section = builder.Configuration.GetSection(nameof(AppSettings));
 section.Bind(new AppSettings());
