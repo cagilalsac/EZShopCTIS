@@ -1,6 +1,7 @@
 ﻿using BLL.DAL;
 using BLL.Models;
 using BLL.Services.Bases;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
@@ -38,7 +39,7 @@ namespace BLL.Services
         /// <returns></returns>
         public IQueryable<UserModel> Query()
         {
-            return _db.Users.Where(u => u.IsActive).Select(u => new UserModel() { Record = u });
+            return _db.Users.Include(u => u.Role).Where(u => u.IsActive).Select(u => new UserModel() { Record = u });
         }
 
         public Service Update(User entity)

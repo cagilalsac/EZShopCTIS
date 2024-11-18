@@ -1,0 +1,51 @@
+﻿@model UserModel
+
+@* Generated from Custom Template. *@
+@* Model namespace using directive should be added to _ViewImports.cshtml. *@
+
+@{
+    var containerDivClass = "container";
+    var dateTimePickerClass = "datetimepicker";
+}
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="@containerDivClass">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+</div>
+
+<div class="@containerDivClass">
+    @if (TempData["Message"] is not null)
+    {
+    <p class="text-danger">
+        @TempData["Message"]
+    </p>
+    }
+    <form asp-action="Login" autocomplete="off">
+		@Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row mb-3">
+            <label asp-for="UserName" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+			    <input asp-for="Record.UserName" class="form-control" />
+				<span asp-validation-for="Record.UserName" class="text-danger"></span>
+			</div>
+        </div>
+        <div class="row mb-3">
+            <label asp-for="Password" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+			    <input asp-for="Record.Password" class="form-control" type="password" />
+				<span asp-validation-for="Record.Password" class="text-danger"></span>
+			</div>
+        </div>
+
+        <hr />  
+        <div class="row mb-3">
+			<div class="offset-2 col-10">
+                <button type="submit" class="btn btn-primary">Login</button>
+			</div>
+        </div>
+    </form>
+</div>  

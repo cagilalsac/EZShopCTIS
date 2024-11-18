@@ -2,12 +2,23 @@ using BLL.DAL;
 using BLL.Models;
 using BLL.Services;
 using BLL.Services.Bases;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Authentication:
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(config =>
+    {
+        config.LoginPath = "/Users/Login";
+        config.AccessDeniedPath = "/Users/Login";
+        config.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        config.SlidingExpiration = true;
+    });
 
 // IoC (Inversion of Control) Container 
 var connectionString = builder.Configuration.GetConnectionString("Db");
@@ -37,6 +48,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Authentication:
+app.UseAuthentication();
 
 app.UseAuthorization();
 

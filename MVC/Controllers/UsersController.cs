@@ -6,6 +6,9 @@ using BLL.Services;
 using BLL.Models;
 using BLL.Services.Bases;
 using BLL.DAL;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 // Generated from Custom Template.
 
@@ -32,12 +35,35 @@ namespace MVC.Controllers
             //_ManyToManyRecordService = ManyToManyRecordService;
         }
 
-        // GET: Users
-        public IActionResult Index()
+        // GET: Users/Login
+        public IActionResult Login()
         {
-            // Get collection service logic:
-            var list = _userService.Query().ToList();
-            return View(list);
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(UserModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                // Way 1:
+                //var result = _userService.Query().Where(u => u.Record.UserName == user.UserName && u.Record.Password == user.Password && u.Record.IsActive).FirstOrDefault();
+                // Way 2:
+                var model = _userService.Query().FirstOrDefault(u => u.Record.UserName == user.UserName && u.Record.Password == user.Password && u.Record.IsActive);
+                if (model is not null)
+                {
+                    List<Claim> claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.Name, model.UserName),
+                        new Claim(ClaimTypes.Role, model.Role)
+                    };
+                    ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); // CookieAuthenticationDefaults.AuthenticationScheme = cookie name
+                    ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View();
         }
 	}
 }
