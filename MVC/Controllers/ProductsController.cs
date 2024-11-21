@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using BLL.Controllers.Bases;
 using BLL.Services;
 using BLL.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 // Generated from Custom Template.
 
 namespace MVC.Controllers
 {
+    [Authorize]
     public class ProductsController : MvcController
     {
         // Service injections:
@@ -34,6 +37,7 @@ namespace MVC.Controllers
         }
 
         // GET: Products
+        [AllowAnonymous]
         public IActionResult Index()
         {
             // Get collection service logic:
@@ -115,8 +119,17 @@ namespace MVC.Controllers
         }
 
         // GET: Products/Delete/5
+        // Way 3:
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
+            // Way 2:
+            //var role = User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role);
+            //if (role is null || role.Value != "Admin")
+            //    return RedirectToAction("Login", "Users");
+            // Way 1:
+            //if (!User.IsInRole("Admin"))
+            //    return RedirectToAction("Login", "Users");
             // Get item to delete service logic:
             var item = _productService.Query().SingleOrDefault(q => q.Record.Id == id);
             return View(item);
@@ -125,6 +138,8 @@ namespace MVC.Controllers
         // POST: Products/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        // Way 3:
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             // Delete item service logic:

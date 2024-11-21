@@ -29,7 +29,10 @@
                     @Model.Count() record(s) found.
                 </div>
                 <div class="col-2 text-end">
-                    <a asp-action="Create">Create</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Create">Create</a>
+                    }
                 </div>
             </div>
             <table class="table table-striped table-hover">
@@ -72,10 +75,21 @@
 						        @Html.DisplayFor(modelItem => item.Category)
 					        </td>
 					        <td class="text-end w-25">
-						        <a asp-action="Details" asp-route-id="@item.Record.Id">Details</a>&nbsp;|&nbsp;
-						        <a asp-action="Edit" asp-route-id="@item.Record.Id">Edit</a>&nbsp;|&nbsp;
-						        <a asp-action="Delete" asp-route-id="@item.Record.Id">Delete</a>
-					        </td>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a asp-action="Details" asp-route-id="@item.Record.Id">Details</a>
+                                    @* Way 1: *@
+                                    @* <text>&nbsp;|&nbsp;</text> *@
+                                    @* Way 2: *@
+                                    @:&nbsp;|&nbsp;
+                                    <a asp-action="Edit" asp-route-id="@item.Record.Id">Edit</a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        @:&nbsp;|&nbsp;
+                                        <a asp-action="Delete" asp-route-id="@item.Record.Id">Delete</a>
+                                    }
+                                }
+                            </td>
 				        </tr>
 		            }
                 </tbody>

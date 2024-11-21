@@ -1,14 +1,16 @@
 ﻿#nullable disable
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using BLL.Controllers.Bases;
-using BLL.Services;
 using BLL.Models;
+using BLL.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 // Generated from Custom Template.
 
 namespace MVC.Controllers
 {
+    //[Authorize(Roles = "Admin,User")]
+    [Authorize]
     public class StoresController : MvcController
     {
         // Service injections:
