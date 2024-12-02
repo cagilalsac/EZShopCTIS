@@ -7,34 +7,42 @@ namespace BLL.Services.Bases
 {
     public abstract class HttpServiceBase
     {
-        const string SESSIONKEY = "SESSIONKEY";
+        protected readonly IHttpContextAccessor _httpContextAccessor;
 
-        protected readonly HttpContextAccessor _httpContextAccessor;
-
-        protected HttpServiceBase(HttpContextAccessor httpContextAccessor)
+        protected HttpServiceBase(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public virtual T GetSession<T>() where T : class, new()
+        public virtual T GetSession<T>(string key) where T : class, new()
         {
             T instance = null;
-            string json = _httpContextAccessor.HttpContext.Session.GetString(SESSIONKEY);
+            string json = _httpContextAccessor.HttpContext.Session.GetString(key);
             if (!string.IsNullOrWhiteSpace(json))
                 instance = JsonConvert.DeserializeObject<T>(json);
             return instance;
         }
 
-        public virtual void SetSession<T>(T instance) where T : class, new()
+        public virtual void SetSession<T>(string key, T instance) where T : class, new()
         {
             string json = JsonConvert.SerializeObject(instance);
-            _httpContextAccessor.HttpContext.Session.SetString(SESSIONKEY, json);
+            _httpContextAccessor.HttpContext.Session.SetString(key, json);
+        }
+
+        public virtual void RemoveSession(string key)
+        {
+            _httpContextAccessor.HttpContext.Session.Remove(key);
+        }
+
+        public virtual void ClearSession()
+        {
+            _httpContextAccessor.HttpContext.Session.Clear();
         }
     }
 
     public class HttpService : HttpServiceBase
     {
-        public HttpService(HttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        public HttpService(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
         }
     }

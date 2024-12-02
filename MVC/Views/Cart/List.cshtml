@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CartItemModel>
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+<h3>@ViewBag.Title</h3>
+
+@if (Model is not null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductUnitPrice)
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.ProductName
+                </td>
+                <td>
+                    @item.ProductUnitPrice
+                </td>
+            </tr>
+        }
+    </table>
+}
