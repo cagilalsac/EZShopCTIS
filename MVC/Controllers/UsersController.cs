@@ -54,6 +54,7 @@ namespace MVC.Controllers
                 {
                     List<Claim> claims = new List<Claim>()
                     {
+                        // TODO: Add Id claim
                         new Claim(ClaimTypes.Name, model.UserName),
                         new Claim(ClaimTypes.Role, model.Role)
                     };
